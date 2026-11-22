@@ -21,6 +21,17 @@ main{max-width:520px;margin:auto;padding:15px}
 .details{margin-top:14px;background:#fffaf1;border:1px solid #e4d2b4;border-radius:14px;padding:16px}
 .details h3{margin:0 0 12px;color:var(--red);font-size:17px}.detailgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.item{background:#f8efdf;border-radius:10px;padding:10px}.item span{display:block;color:var(--muted);font-size:11px}.item b{font-size:14px}
 .note{font-size:11px;line-height:1.6;color:#89766e;margin:14px 4px 22px}.bottom{display:flex;gap:8px;margin-top:14px}.bottom button{flex:1;border:1px solid #d8c39e;border-radius:10px;padding:11px;background:#fff8eb;color:var(--red);font:inherit}
+
+.navbar{position:sticky;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);background:#fffaf1;border-top:1px solid #dfcda9;padding:7px 4px calc(7px + env(safe-area-inset-bottom));z-index:5;box-shadow:0 -4px 16px #54201712}
+.navbar button{border:0;background:transparent;color:#806b60;font:inherit;font-size:11px;padding:5px 2px;border-radius:10px}
+.navbar button.active{background:#f3e5ca;color:var(--red);font-weight:700}
+.navbar button span{display:block;font-size:19px;margin-bottom:2px}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pill{font:11px sans-serif;color:#876b36;border:1px solid #d9c49d;border-radius:20px;padding:3px 7px}
+.detailgrid .item b{font-size:13px}
+.smallnote{font-size:10px;color:#8c7770;line-height:1.5;margin:10px 2px 0}
+.hidden{display:none!important}
+@media(min-width:600px){.navbar{max-width:520px;margin:auto;border-radius:14px 14px 0 0}}
 </style></head>
 <body>
 <header><div class="brand">ঐতিহ্য • সংস্কৃতি • সময়</div><div class="title">বাংলা পঞ্জিকা</div><div class="sub">পশ্চিমবঙ্গের বাংলা ক্যালেন্ডার</div><div class="method">গুপ্তপ্রেস · সূর্যসিদ্ধান্ত</div></header>
@@ -33,9 +44,19 @@ main{max-width:520px;margin:auto;padding:15px}
 <div class="item"><span>ইংরেজি তারিখ</span><b id="selEn">—</b></div>
 <div class="item"><span>তিথি</span><b>যাচাইকৃত তথ্য যুক্ত হয়নি</b></div>
 <div class="item"><span>নক্ষত্র</span><b>যাচাইকৃত তথ্য যুক্ত হয়নি</b></div>
-<div class="item"><span>সূর্যোদয়</span><b>কোলকাতা · তথ্য অপেক্ষমাণ</b></div>
-<div class="item"><span>সূর্যাস্ত</span><b>কোলকাতা · তথ্য অপেক্ষমাণ</b></div>
+<div class="item"><span>সূর্যোদয় · কলকাতা</span><b id="sunrise">—</b></div>
+<div class="item"><span>সূর্যাস্ত · কলকাতা</span><b id="sunset">—</b></div>
 </div></section>
+<section class="details" id="panchangDetails">
+ <div class="section-title"><h3>দৈনিক পঞ্জিকা</h3><span class="pill">তথ্য যাচাইাধীন</span></div>
+ <div class="detailgrid">
+  <div class="item"><span>যোগ</span><b>যাচাইকৃত তথ্য নেই</b></div>
+  <div class="item"><span>করণ</span><b>যাচাইকৃত তথ্য নেই</b></div>
+  <div class="item"><span>রাহুকাল</span><b id="rahuTime">গণনা হচ্ছে…</b></div>
+  <div class="item"><span>দিনের দৈর্ঘ্য</span><b id="dayLength">গণনা হচ্ছে…</b></div>
+ </div>
+ <p class="smallnote">সূর্যোদয়, সূর্যাস্ত ও রাহুকাল কলকাতার আনুমানিক জ্যোতির্বৈজ্ঞানিক হিসাব। এগুলি গুপ্তপ্রেসের প্রকাশিত সময়ের বিকল্প নয়।</p>
+</section>
 <div class="bottom"><button id="goToday">আজকের দিন</button><button id="share">শেয়ার</button></div>
 <section class="details" style="margin-top:12px">
 <h3>পঞ্জিকা-সিদ্ধান্ত</h3>
@@ -44,6 +65,12 @@ main{max-width:520px;margin:auto;padding:15px}
 </section>
 <p class="note">পরবর্তী সংস্করণে প্রকাশিত/লাইসেন্সপ্রাপ্ত পঞ্জিকা-তথ্য বা যাচাইকৃত সূর্যসিদ্ধান্ত গণনা যুক্ত না করা পর্যন্ত এই অ্যাপকে পূজা বা শুভ কাজের সময় নির্ধারণে ব্যবহার করবেন না।</p>
 </main>
+<nav class="navbar" aria-label="প্রধান মেনু">
+ <button class="active" data-tab="calendarTab"><span>▦</span>ক্যালেন্ডার</button>
+ <button data-tab="dailyTab"><span>☼</span>আজকের পঞ্জিকা</button>
+ <button data-tab="festivalTab"><span>✿</span>উৎসব</button>
+ <button data-tab="settingsTab"><span>⚙</span>সেটিংস</button>
+</nav>
 <script>
 const bnMonths=["বৈশাখ","জ্যৈষ্ঠ","আষাঢ়","শ্রাবণ","ভাদ্র","আশ্বিন","কার্তিক","অগ্রহায়ণ","পৌষ","মাঘ","ফাল্গুন","চৈত্র"];
 const bnDays=["রবি","সোম","মঙ্গল","বুধ","বৃহস্পতি","শুক্র","শনি"];
@@ -55,6 +82,29 @@ function bengaliDate(date){
  let day=Math.floor((date-start)/86400000), lens=[31,31,31,31,31,30,30,30,30,30,30,30],m=0;
  while(m<11&&day>=lens[m]){day-=lens[m];m++}
  return {day:day+1,month:m,year:y-593};
+}
+
+function solarTimes(date){
+ const rad=Math.PI/180, lat=22.5726, lon=88.3639;
+ const start=new Date(Date.UTC(date.getFullYear(),0,0));
+ const doy=Math.floor((Date.UTC(date.getFullYear(),date.getMonth(),date.getDate())-start.getTime())/86400000);
+ const gamma=2*Math.PI/365*(doy-1);
+ const eq=229.18*(0.000075+0.001868*Math.cos(gamma)-0.032077*Math.sin(gamma)-0.014615*Math.cos(2*gamma)-0.040849*Math.sin(2*gamma));
+ const decl=0.006918-0.399912*Math.cos(gamma)+0.070257*Math.sin(gamma)-0.006758*Math.cos(2*gamma)+0.000907*Math.sin(2*gamma)-0.002697*Math.cos(3*gamma)+0.00148*Math.sin(3*gamma);
+ const zen=90.833*rad, latr=lat*rad;
+ const cosH=(Math.cos(zen)-Math.sin(latr)*Math.sin(decl))/(Math.cos(latr)*Math.cos(decl));
+ if(cosH < -1 || cosH > 1) return null;
+ const ha=Math.acos(cosH)/rad;
+ const noon=720-4*lon-eq+330;
+ const toTime=m=>{m=((m%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,"0")+":"+String(Math.floor(m%60)).padStart(2,"0")};
+ return {rise:toTime(noon-4*ha),set:toTime(noon+4*ha),riseMin:noon-4*ha,setMin:noon+4*ha};
+}
+function rahuFor(date, solar){
+ if(!solar)return "—";
+ const segments=[7,1,6,4,5,3,2], seg=segments[date.getDay()];
+ const start=solar.riseMin+(solar.setMin-solar.riseMin)*(seg-1)/8, end=start+(solar.setMin-solar.riseMin)/8;
+ const f=m=>String(Math.floor(m/60)%24).padStart(2,"0")+":"+String(Math.floor(m%60)).padStart(2,"0");
+ return bnDigits(f(start))+"–"+bnDigits(f(end));
 }
 const fmtDate=d=>`${bnDigits(d.getDate())} ${["জানুয়ারি","ফেব্রুয়ারি","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"][d.getMonth()]} ${bnDigits(d.getFullYear())}`;
 let today=new Date(), view=new Date(today.getFullYear(),today.getMonth(),1), selected=new Date(today);
@@ -71,11 +121,27 @@ function render(){
  let b=bengaliDate(selected);
  document.getElementById("selectedTitle").textContent=`${bnDays[selected.getDay()]}বারের বিবরণ`;
  document.getElementById("selBn").textContent=`${bnDigits(b.day)} ${bnMonths[b.month]} ${bnDigits(b.year)}`;
- document.getElementById("selEn").textContent=fmtDate(selected);
+ 
+document.getElementById("selEn").textContent=fmtDate(selected);
+ const solar=solarTimes(selected);
+ document.getElementById("sunrise").textContent=solar?bnDigits(solar.rise):"তথ্য নেই";
+ document.getElementById("sunset").textContent=solar?bnDigits(solar.set):"তথ্য নেই";
+ document.getElementById("rahuTime").textContent=solar?rahuFor(selected,solar):"তথ্য নেই";
+ document.getElementById("dayLength").textContent=solar?bnDigits(Math.floor((solar.setMin-solar.riseMin)/60)+" ঘণ্টা "+Math.round((solar.setMin-solar.riseMin)%60)+" মিনিট"):"তথ্য নেই";
 }
 document.getElementById("prev").onclick=()=>{view.setMonth(view.getMonth()-1);render()};
 document.getElementById("next").onclick=()=>{view.setMonth(view.getMonth()+1);render()};
 document.getElementById("goToday").onclick=()=>{selected=new Date(today);view=new Date(today.getFullYear(),today.getMonth(),1);render()};
 document.getElementById("share").onclick=()=>{let b=bengaliDate(selected),s=`${bnDigits(b.day)} ${bnMonths[b.month]} ${bnDigits(b.year)} — ${fmtDate(selected)}`;if(navigator.share)navigator.share({title:"বাংলা পঞ্জিকা",text:s});else alert(s)};
+
+document.querySelectorAll(".navbar button").forEach(btn=>btn.addEventListener("click",()=>{
+ document.querySelectorAll(".navbar button").forEach(x=>x.classList.remove("active"));
+ btn.classList.add("active");
+ const target=btn.dataset.tab;
+ if(target==="dailyTab") document.getElementById("panchangDetails").scrollIntoView({behavior:"smooth",block:"center"});
+ else if(target==="calendarTab") document.getElementById("calendar").scrollIntoView({behavior:"smooth",block:"center"});
+ else if(target==="festivalTab") alert("উৎসবের যাচাইকৃত তালিকা পরবর্তী সংস্করণে যুক্ত করা হবে।");
+ else if(target==="settingsTab") document.querySelector(".details:last-of-type").scrollIntoView({behavior:"smooth",block:"center"});
+}));
 render();
 </script></body></html>
