@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#7b171c"><title>বাংলা পঞ্জিকা</title>
+<style>
+:root{--red:#7b171c;--deep:#4c1014;--gold:#c69a43;--cream:#fff8eb;--ink:#342321;--muted:#8c7770}
+*{box-sizing:border-box}body{margin:0;background:#f4eadb;color:var(--ink);font-family:"Noto Serif Bengali","Nirmala UI",serif}
+header{background:linear-gradient(145deg,#8d2023,#4d1016);color:#fff;padding:25px 20px 30px;border-bottom:4px solid var(--gold);position:relative;overflow:hidden}
+header:after{content:"";position:absolute;width:220px;height:220px;border:1px solid #d9b76a66;border-radius:50%;right:-80px;top:-100px;box-shadow:0 0 0 16px #d9b76a12,0 0 0 34px #d9b76a0c}
+.brand{font-size:13px;letter-spacing:2px;color:#f2d99d}.method{display:inline-block;margin-top:12px;padding:5px 10px;border:1px solid #d9b76a88;border-radius:30px;color:#f6dfae;font-size:11px}.title{font-size:30px;font-weight:700;margin:4px 0}.sub{font-size:13px;color:#f4dfc0}
+main{max-width:520px;margin:auto;padding:15px}
+.today{margin-top:-14px;position:relative;background:var(--cream);border:1px solid #e6d2ad;border-radius:16px;padding:16px;box-shadow:0 7px 20px #54201718}
+.today .label{font-size:12px;color:var(--muted)}.today .date{font-size:27px;color:var(--red);font-weight:700;margin:3px 0}.today .eng{font-size:14px}
+.monthbar{display:flex;align-items:center;justify-content:space-between;margin:22px 2px 12px}.monthbar button{border:1px solid #d9c49d;background:#fff8eb;color:var(--red);border-radius:10px;width:42px;height:38px;font-size:20px}
+.monthname{font-weight:700;font-size:20px;color:var(--deep);text-align:center}.monthname small{display:block;font-size:12px;color:var(--muted);font-weight:400}
+.calendar{background:#fffaf1;border:1px solid #e4d2b4;border-radius:14px;padding:10px;display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.week{font-size:12px;color:var(--red);font-weight:700;text-align:center;padding:8px 0}
+.day{border:0;background:transparent;min-height:52px;border-radius:9px;color:var(--ink);font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.day .en{font-family:Arial,sans-serif;font-size:15px}.day .bn{font-size:11px;color:var(--muted)}.day.todaymark{background:#f3e2bf;outline:1px solid var(--gold)}.day.selected{background:var(--red);color:white}.day.selected .bn{color:#f8dfb0}.day:disabled{opacity:.2}
+.details{margin-top:14px;background:#fffaf1;border:1px solid #e4d2b4;border-radius:14px;padding:16px}
+.details h3{margin:0 0 12px;color:var(--red);font-size:17px}.detailgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.item{background:#f8efdf;border-radius:10px;padding:10px}.item span{display:block;color:var(--muted);font-size:11px}.item b{font-size:14px}
+.note{font-size:11px;line-height:1.6;color:#89766e;margin:14px 4px 22px}.bottom{display:flex;gap:8px;margin-top:14px}.bottom button{flex:1;border:1px solid #d8c39e;border-radius:10px;padding:11px;background:#fff8eb;color:var(--red);font:inherit}
+</style></head>
+<body>
+<header><div class="brand">ঐতিহ্য • সংস্কৃতি • সময়</div><div class="title">বাংলা পঞ্জিকা</div><div class="sub">পশ্চিমবঙ্গের বাংলা ক্যালেন্ডার</div><div class="method">গুপ্তপ্রেস · সূর্যসিদ্ধান্ত</div></header>
+<main>
+<section class="today"><div class="label">আজকের বাংলা তারিখ · প্রাথমিক রূপান্তর</div><div class="date" id="todayBn">—</div><div class="eng" id="todayEn">—</div></section>
+<div class="monthbar"><button id="prev" aria-label="আগের মাস">‹</button><div class="monthname" id="monthName">—<small id="yearName"></small></div><button id="next" aria-label="পরের মাস">›</button></div>
+<div class="calendar" id="calendar"></div>
+<section class="details"><h3 id="selectedTitle">নির্বাচিত দিনের বিবরণ</h3><div class="detailgrid">
+<div class="item"><span>বাংলা তারিখ</span><b id="selBn">—</b></div>
+<div class="item"><span>ইংরেজি তারিখ</span><b id="selEn">—</b></div>
+<div class="item"><span>তিথি</span><b>যাচাইকৃত তথ্য যুক্ত হয়নি</b></div>
+<div class="item"><span>নক্ষত্র</span><b>যাচাইকৃত তথ্য যুক্ত হয়নি</b></div>
+<div class="item"><span>সূর্যোদয়</span><b>কোলকাতা · তথ্য অপেক্ষমাণ</b></div>
+<div class="item"><span>সূর্যাস্ত</span><b>কোলকাতা · তথ্য অপেক্ষমাণ</b></div>
+</div></section>
+<div class="bottom"><button id="goToday">আজকের দিন</button><button id="share">শেয়ার</button></div>
+<section class="details" style="margin-top:12px">
+<h3>পঞ্জিকা-সিদ্ধান্ত</h3>
+<div class="item"><span>নির্বাচিত পদ্ধতি</span><b>গুপ্তপ্রেস · সূর্যসিদ্ধান্ত</b></div>
+<p class="note" style="margin-bottom:0">গুপ্তপ্রেসের পঞ্জিকা সূর্যসিদ্ধান্ত পদ্ধতি অনুসরণ করে। এই সংস্করণে সেই পদ্ধতির পূর্ণ গণনা বা প্রকাশিত দৈনিক তথ্য এখনও সংযুক্ত হয়নি। তাই তিথি, নক্ষত্র, যোগ, করণ, রাহুকাল ও শুভ মুহূর্ত দেখানো হচ্ছে না—ভুল সময় দেখানোর চেয়ে তথ্য ফাঁকা রাখা নিরাপদ। বাংলা তারিখের ঘরটিও আপাতত আনুমানিক।</p>
+</section>
+<p class="note">পরবর্তী সংস্করণে প্রকাশিত/লাইসেন্সপ্রাপ্ত পঞ্জিকা-তথ্য বা যাচাইকৃত সূর্যসিদ্ধান্ত গণনা যুক্ত না করা পর্যন্ত এই অ্যাপকে পূজা বা শুভ কাজের সময় নির্ধারণে ব্যবহার করবেন না।</p>
+</main>
+<script>
+const bnMonths=["বৈশাখ","জ্যৈষ্ঠ","আষাঢ়","শ্রাবণ","ভাদ্র","আশ্বিন","কার্তিক","অগ্রহায়ণ","পৌষ","মাঘ","ফাল্গুন","চৈত্র"];
+const bnDays=["রবি","সোম","মঙ্গল","বুধ","বৃহস্পতি","শুক্র","শনি"];
+const bnDigits=n=>String(n).replace(/\d/g,d=>"০১২৩৪৫৬৭৮৯"[+d]);
+function bengaliDate(date){
+ // Approximate West Bengal solar-calendar conversion: 15 Apr = 1 Boishakh.
+ let y=date.getFullYear(), start=new Date(y,3,15);
+ if(date<start){y--;start=new Date(y,3,15)}
+ let day=Math.floor((date-start)/86400000), lens=[31,31,31,31,31,30,30,30,30,30,30,30],m=0;
+ while(m<11&&day>=lens[m]){day-=lens[m];m++}
+ return {day:day+1,month:m,year:y-593};
+}
+const fmtDate=d=>`${bnDigits(d.getDate())} ${["জানুয়ারি","ফেব্রুয়ারি","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"][d.getMonth()]} ${bnDigits(d.getFullYear())}`;
+let today=new Date(), view=new Date(today.getFullYear(),today.getMonth(),1), selected=new Date(today);
+function render(){
+ document.getElementById("todayBn").textContent=(()=>{let b=bengaliDate(today);return `${bnDigits(b.day)} ${bnMonths[b.month]} ${bnDigits(b.year)}`})();
+ document.getElementById("todayEn").textContent=fmtDate(today);
+ document.getElementById("monthName").firstChild.textContent=["জানুয়ারি","ফেব্রুয়ারি","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"][view.getMonth()];
+ document.getElementById("yearName").textContent=bnDigits(view.getFullYear());
+ const cal=document.getElementById("calendar");cal.innerHTML="";
+ bnDays.forEach(x=>{let e=document.createElement("div");e.className="week";e.textContent=x;cal.append(e)});
+ let first=new Date(view.getFullYear(),view.getMonth(),1).getDay(), count=new Date(view.getFullYear(),view.getMonth()+1,0).getDate();
+ for(let i=0;i<first;i++){let e=document.createElement("button");e.className="day";e.disabled=true;cal.append(e)}
+ for(let n=1;n<=count;n++){let d=new Date(view.getFullYear(),view.getMonth(),n),b=bengaliDate(d),e=document.createElement("button");e.className="day"+(d.toDateString()===today.toDateString()?" todaymark":"")+(d.toDateString()===selected.toDateString()?" selected":"");e.innerHTML=`<span class="en">${n}</span><span class="bn">${bnDigits(b.day)}</span>`;e.onclick=()=>{selected=d;render()};cal.append(e)}
+ let b=bengaliDate(selected);
+ document.getElementById("selectedTitle").textContent=`${bnDays[selected.getDay()]}বারের বিবরণ`;
+ document.getElementById("selBn").textContent=`${bnDigits(b.day)} ${bnMonths[b.month]} ${bnDigits(b.year)}`;
+ document.getElementById("selEn").textContent=fmtDate(selected);
+}
+document.getElementById("prev").onclick=()=>{view.setMonth(view.getMonth()-1);render()};
+document.getElementById("next").onclick=()=>{view.setMonth(view.getMonth()+1);render()};
+document.getElementById("goToday").onclick=()=>{selected=new Date(today);view=new Date(today.getFullYear(),today.getMonth(),1);render()};
+document.getElementById("share").onclick=()=>{let b=bengaliDate(selected),s=`${bnDigits(b.day)} ${bnMonths[b.month]} ${bnDigits(b.year)} — ${fmtDate(selected)}`;if(navigator.share)navigator.share({title:"বাংলা পঞ্জিকা",text:s});else alert(s)};
+render();
+</script></body></html>
